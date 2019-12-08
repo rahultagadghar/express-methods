@@ -2,7 +2,8 @@ import { config } from 'dotenv'
 config()
 import express, { NextFunction } from 'express'
 const app = express();
-import { attachFinishMethod, expressErrorHandler, ExpressError } from './util';
+import httpError from 'http-errors'
+import { attachFinishMethod, expressErrorHandler, ExpressError } from './app.util';
 import { ExpressResponse } from './app.interface';
 const { log } = console;
 const port = process.env.PORT;
@@ -31,9 +32,21 @@ app.get("/", (req, res: ExpressResponse, next) => {
 app.get("/mockErrorPath", (req, res: ExpressResponse, next) => {
     try {
         /* 
-            INFO : httpStatusCode as second argument is optional by default it is 400
+            INFO : statusCode as second argument is optional by default it is 400
+                   try custom message and statusCode in ExpressError
         */
         throw new ExpressError("Its Forbidden", 403)
+    } catch (error) {
+        next(error);
+    }
+});
+
+app.get("/mockErrorPathHttp", (req, res: ExpressResponse, next) => {
+    try {
+        /* 
+            INFO : If you are fan of http-errors like me :) go ahead!
+        */
+        throw new httpError.Forbidden()
     } catch (error) {
         next(error);
     }
