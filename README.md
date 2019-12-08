@@ -1,6 +1,6 @@
 # Express Methods
 
-### This project is build in TypeScript, demonstrates standard usage of express framework with advance custom request methods and error generators
+This project is build in TypeScript, demonstrates standard usage of express framework with advance custom request methods and error generators
 
 **Run application in Production mode**
 
@@ -16,7 +16,7 @@
 
 ## Finish Method
 
-### Finish method makes use of send method under the hood, finish method allows to send http response in a uniform pattern of both success and failure
+Finish method makes use of send method under the hood, finish method allows to send http response in a uniform pattern for all the APIS including success and failure response
 
 ```ts
 const attachFinishMethod = (req: Request, res: ExpressResponse, next) => {
@@ -26,7 +26,7 @@ const attachFinishMethod = (req: Request, res: ExpressResponse, next) => {
     defaultHttpStatus = 201;
   }
 
-  res.finish = ( data = {}, message = "", httpStatus = defaultHttpStatus, errors = {} ) => {
+  res.finish = (data = {}, message = "", httpStatus = defaultHttpStatus, errors = {}) => {
     res.status(httpStatus).send({
       message,
       data,
@@ -37,13 +37,13 @@ const attachFinishMethod = (req: Request, res: ExpressResponse, next) => {
 };
 ```
 
-### Make sure to add this middleware on highest scope of application, this will make sure to attach finish method to every request
+Make sure to add this middleware on highest scope of application, this will make sure to attach finish method to every request
 
 ```ts
 app.use(attachFinishMethod);
 ```
 
-### Example for usage of finish method
+Example for usage of finish method
 
 ```ts
 app.get("/", (req, res: ExpressResponse, next) => {
@@ -60,7 +60,7 @@ app.get("/", (req, res: ExpressResponse, next) => {
 
 # Error Generators
 
-### ExpressError is build on top of Error constructor it adds ability to send custom http message and status code
+ExpressError is build on top of Error constructor it adds ability to send custom http message and status code
 
 ```ts
 throw new ExpressError("Its Forbidden", 403);
@@ -70,7 +70,7 @@ throw new ExpressError("Its Forbidden", 403);
 throw new httpError.Forbidden();
 ```
 
-### Make sure to place this middleware at the end of scope, this middleware is compatible with both the error generators shown above
+Make sure to place this middleware at the end of scope, this middleware is compatible with both the error generators shown above
 
 ```ts
 app.use(expressErrorHandler);
