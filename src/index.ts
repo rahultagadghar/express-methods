@@ -22,8 +22,13 @@ app.get("/", (req, res: ExpressResponse, next) => {
         const result = {
             isUser: true,
         }
-
-        res.finish(result, "Fetched User Info!");
+        /* 
+            INFO : 
+                    * 200 is default success http statusCode for get method
+                    * 201 is default success http statusCode for rest of the methods 
+                    * 400 is default failure http statusCode for all method
+        */
+        res.finish(result, "Fetched mock user info!");
     } catch (error) {
         next(error);
     }
@@ -44,7 +49,7 @@ app.get("/mockErrorPath", (req, res: ExpressResponse, next) => {
 app.get("/mockErrorPathHttp", (req, res: ExpressResponse, next) => {
     try {
         /* 
-            INFO : If you are fan of http-errors like me :) go ahead!
+            INFO : If your a fan of http-errors like me :) go ahead!
         */
         throw new httpError.Forbidden()
     } catch (error) {
