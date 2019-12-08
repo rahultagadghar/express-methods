@@ -5,6 +5,8 @@ const app = express();
 import httpError from 'http-errors'
 import { attachFinishMethod, expressErrorHandler, ExpressError } from './app.util';
 import { ExpressResponse } from './app.interface';
+import { validateQuery } from './app.middleware';
+import { User } from './app.dto';
 const { log } = console;
 const port = process.env.PORT;
 app.listen(port, () => log("server on : ", port));
@@ -26,7 +28,7 @@ app.get("/", (req, res: ExpressResponse, next) => {
             INFO : 
                     * 200 is default success http statusCode for get method
                     * 201 is default success http statusCode for rest of the methods 
-                    * 400 is default failure http statusCode for all method
+                    * 400 is default failure http statusCode for all methods
         */
         res.finish(result, "Fetched mock user info!");
     } catch (error) {
@@ -56,6 +58,17 @@ app.get("/mockErrorPathHttp", (req, res: ExpressResponse, next) => {
         next(error);
     }
 });
+
+
+app.get('/validator', validateQuery.bind(User), (req, res: ExpressResponse, next) => {
+    try {
+        const result = { done: true }
+        res.finish(result, "All validation passed")
+    } catch (error) {
+        next(error)
+    }
+})
+
 
 /* 
     INFO : Standard error handler,
