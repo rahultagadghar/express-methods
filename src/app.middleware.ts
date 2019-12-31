@@ -2,14 +2,6 @@ import { validate as Validator, ValidatorOptions } from "class-validator";
 import { plainToClass } from "class-transformer";
 import { ExpressError } from "./app.util";
 
-/* 
-    INFO :
-            *  ClientInput middleware converts incoming object to class instance 
-            *  Compares class instance to provided reference class
-            *  Maps error message to readable form
-            *  Terminates request on error else transfer request to next middleware on success 
-*/
-
 class ClientInput {
 
     private mapErrorMessages(o) {
@@ -34,15 +26,23 @@ class ClientInput {
     }
 }
 
-export function validateQuery(req, res, next) {
-    const input = { target: req.query, jsonObject: this }
-    return new ClientInput().validator(input, req, res, next)
+export function Query(jsonObject) {
+    return (req, res, next) => {
+        const input = { target: req.query, jsonObject }
+        return new ClientInput().validator(input, req, res, next)
+    }
 }
-export function validateBody(req, res, next) {
-    const input = { target: req.body, jsonObject: this }
-    return new ClientInput().validator(input, req, res, next)
+
+export function Body(jsonObject) {
+    return (req, res, next) => {
+        const input = { target: req.body, jsonObject }
+        return new ClientInput().validator(input, req, res, next)
+    }
 }
-export function validateParams(req, res, next) {
-    const input = { target: req.params, jsonObject: this }
-    return new ClientInput().validator(input, req, res, next)
+
+export function Params(jsonObject) {
+    return (req, res, next) => {
+        const input = { target: req.params, jsonObject }
+        return new ClientInput().validator(input, req, res, next)
+    }
 }

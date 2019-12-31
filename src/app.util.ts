@@ -17,11 +17,7 @@ export class ExpressError extends Error {
 
 export const attachFinishMethod = (req: Request, res: ExpressResponse, next) => {
     let defaultHttpStatus = 200
-
-    /* 
-        Below condition adds ability to send 201 as statusCode for POST, PUT, DELETE methods.
-    */
-   
+    
     if (req.method !== httpMethod.GET) {
         defaultHttpStatus = 201
     }

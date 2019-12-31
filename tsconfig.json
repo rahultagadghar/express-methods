@@ -1,9 +1,18 @@
 {
-    "compilerOptions": {
-      "module": "commonjs",
-      "outDir": "dist",
-      "strict": false ,
-      "esModuleInterop": true,
-      "experimentalDecorators": true
-    }
-  }
+  "compilerOptions": {
+    "module": "commonjs",
+    "outDir": "dist",
+    "strict": false,
+    "esModuleInterop": true,
+    "target": "es5",
+    "declaration": true,
+    "experimentalDecorators": true
+  },
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "node_modules",
+    "**/__tests__/*"
+  ]
+}
